@@ -1,1 +1,24 @@
 
+STEPS: 
+
+
+1. Preprocess the corpora to remove the punctuations 
+
+2. Create a function that be able to generate till 5-grams 
+
+3. Create a class: 
+                  - training
+                  - generation
+                  - evaluation
+
+4. build a code to handle n-grams not presented in training data
+
+5. build test to check that it works
+
+6. Try with different corpora, for instansce: 3 or 4 to check how changes with each of them
+
+(3.	The code base should be updated frequently with small pushes.) ?I DON'T UNDERSTAND THIS
+
+7. Comparing the results using different corpora
+
+8. Writing a report using graphics and giving explanation
