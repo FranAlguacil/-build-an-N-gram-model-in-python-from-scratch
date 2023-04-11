@@ -1,12 +1,24 @@
-
-#Bigram model
-
-def logP(u, v):
-
-    if (u, v) in counts:
-        return np.log2(counts[(u, v)]) - np.log2(sum(counts[(u,)].values()))
+def ngrams(sentences, n):
+  
+    # Initialize a list to store the n-grams
+    ngrams = []
     
-    # Handle unknown bigrams
-    return -np.inf
+    # Iterate over each sentence in the corpus
+    for sentence in sentences:
+    
+        # Generate the n-grams for the current sentence
+        for i in range(len(sentence) - n + 1):
+            ngram = sentence[i:i+n]
+            ngrams.append(ngram)
+   
+    return ngrams
 
+
+
+# This fuction is to generate as much n-grams as you can
+
+sentences = preprocess_corpus('name of the corpus')
+ngrams = []
+for i in range(1, 6):
+    ngrams.extend(generate_ngrams(sentences, i))
 
