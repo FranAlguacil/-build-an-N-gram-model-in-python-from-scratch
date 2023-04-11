@@ -1,5 +1,28 @@
 
+def preprocess_corpus(corpus_path):
+    
+    # Read in the text corpus from the file
+    with open(corpus_path, 'r', encoding='utf-8') as f:
+        corpus = f.read()
 
+    # Preprocess the text corpus
+    # Convert to lowercase
+    corpus = corpus.lower()
+    # Remove punctuation
+    punctuations = '''!()-[]{};:'"\,<>./?@#$%^&*_~'''
+    for char in corpus:
+        if char in punctuations:
+            corpus = corpus.replace(char, "")
+    # Split the corpus into sentences
+    sentences = corpus.split('\n')
+    # Remove any empty sentences
+    sentences = [s for s in sentences if s]
+
+    # Tokenize each sentence into a list of words
+    tokenized_sentences = [s.split() for s in sentences]
+
+    # Return the preprocessed corpus as a list of sentences
+    return tokenized_sentences
 
 
 
