@@ -1,0 +1,12 @@
+
+#Bigram model
+
+def logP(u, v):
+
+    if (u, v) in counts:
+        return np.log2(counts[(u, v)]) - np.log2(sum(counts[(u,)].values()))
+    
+    # Handle unknown bigrams
+    return -np.inf
+
+
