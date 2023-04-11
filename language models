@@ -1,9 +1,9 @@
 def ngrams(sentences, n):
   
-    # Initialize a list to store the n-grams
+    # let's create a list to save
     ngrams = []
     
-    # Iterate over each sentence in the corpus
+    # Iteration
     for sentence in sentences:
     
         # Generate the n-grams for the current sentence
