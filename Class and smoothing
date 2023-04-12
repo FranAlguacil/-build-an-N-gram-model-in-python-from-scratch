@@ -1,0 +1,32 @@
+class Ngram_model:
+    def __init__(self, n):
+        self.n = n
+        self.ngrams = {}
+        self.total_count = 0
+
+    def train(self, corpus):
+        # tokenize the corpus and create N-grams
+        tokens = tokenize(corpus)
+        ngrams = create_ngrams(tokens, self.n)
+
+        # frequency of each N-gram
+        for ng in ngrams:
+            if ng in self.ngrams:
+                self.ngrams[ng] += 1
+            else:
+                self.ngrams[ng] = 1
+            self.total_count += 1
+
+    def score(self, sentence):
+        # tokenize and create N-grams
+        tokens = tokenize(sentence)
+        ngrams = create_ngrams(tokens, self.n)
+--------------------------------------------------------------
+        # log probability of sentece
+        log_prob = 0
+        for ng in ngrams:
+            count = self.ngrams.get(ng, 0) + 1  # one smoothing
+            prob = count / (self.total_count + len(self.ngrams))
+            log_prob += math.log(prob)
+
+        return log_prob
