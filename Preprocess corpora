@@ -21,3 +21,18 @@ def preprocess_corpus(corpus_path):
 
    
     return tokenized_sentences
+    
+    
+    
+    UPDATE 25/04/2023
+    
+    As seen in class, I figured out it is easier to implement a corpus from NLTK than other. The code will more legible and short and it is less problematic.
+    
+    import nltk
+    nltk.download('brown')
+    corpus = nltk.corpus.brown
+    sentences = corpus.sents(categories='news')
+    tokenized_sentences = [[w.lower() for w in sent] for sent in sentences]
+    
+    The objectif with this is to compare the model with different corpora, I want to focus on news section, later I will add more corpora
+
