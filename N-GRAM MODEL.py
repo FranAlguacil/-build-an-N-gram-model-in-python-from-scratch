@@ -119,3 +119,24 @@ class Ngram_model:
         perplexity = math.exp(-log_prob)
 
         return perplexity
+    
+    
+    UPDATE! 
+    
+    
+import nltk       #useful to treat with language model
+import numpy as np   #operations with logs
+
+nltk.download('brown')
+corpus = nltk.corpus.brown
+sentences = corpus.sents(categories='news')
+tokenized_sentences = [[w.lower() for w in sent] for sent in sentences]
+
+
+class NgramModel:
+    def __init__(self, n, smoothing=0.01):
+        self.n = n
+        self.vocab = set()
+        self.ngram_counts = {}
+        self.context_counts = {}
+        self.smoothing = smoothing
