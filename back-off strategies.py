@@ -1,3 +1,5 @@
+
+#Depends on the technique you want to use, only copy and paste one function and erase the other one
 #Laplace
 def prob(self, word, context):
       context_count = self.context_counts.get(context, 0)
