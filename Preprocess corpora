@@ -1,38 +1,31 @@
-def preprocess_corpus(corpus_path):
+ As seen in class, I figured out it is easier to implement a corpus from NLTK than other. The code will more legible and short and it is less problematic.
     
-    # Read the corpus
-    with open(corpus_path, 'r', encoding='utf-8') as f:
-        corpus = f.read()
-
-    # Preprocess the text corpus
-    corpus = corpus.lower() #lowecase
-    # Remove punctuations
-    punctuations = '''!()-[]{};:'"\,<>./?@#$%^&*_~¬'''
-    for char in corpus:
-        if char in punctuations:
-            corpus = corpus.replace(char, "")
-    # Split into sentences
-    sentences = corpus.split('\n')
-    # Remove empty sentences
-    sentences = [s for s in sentences if s]
-
-    # Tokenize each sentence into a list of words
-    tokenized_sentences = [s.split() for s in sentences]
-
-   
-    return tokenized_sentences
-    
-    
-    
-    UPDATE 25/04/2023
-    
-    As seen in class, I figured out it is easier to implement a corpus from NLTK than other. The code will more legible and short and it is less problematic.
-    
+    #BROWN
     import nltk
+    import numpy as np
     nltk.download('brown')
     corpus = nltk.corpus.brown
     sentences = corpus.sents(categories='news')
     tokenized_sentences = [[w.lower() for w in sent] for sent in sentences]
     
-    The objectif with this is to compare the model with different corpora, I want to focus on news section, later I will add more corpora
+    #REUTERS
+    import nltk
+    import numpy as np
+    nltk.download('punkt')
+    nltk.download('reuters')
+    from nltk.corpus import reuters
+    corpus = nltk.corpus.reuters
+    sentences = reuters.sents()
+    tokenized_sentences = [[w.lower() for w in sent] for sent in sentences]
+    
+    #CNN
+    import nltk
+    import numpy as np
+    nltk.download('cnn')
+    from nltk.corpus import cnn
+    corpus = nltk.corpus.cnn
+    sentences = cnn.sents()
+    tokenized_sentences = [[w.lower() for w in sent] for sent in sentences]
+    
+
 
