@@ -4,18 +4,15 @@ class Ngram_model:
         self.ngrams = {}
         self.total_count = 0
 
-    def train(self, corpus):
-        # tokenize the corpus and create N-grams
-        tokens = tokenize(corpus)
-        ngrams = create_ngrams(tokens, self.n)
-
-        # frequency of each N-gram
-        for ng in ngrams:
-            if ng in self.ngrams:
-                self.ngrams[ng] += 1
-            else:
-                self.ngrams[ng] = 1
-            self.total_count += 1
+     def train(self, sentences):
+       for sent in sentences:
+          padded_sent = ['<s>'] * self.n + sent + ['</s>']
+           for i in range(self.n, len(padded_sent)):
+               ngram = tuple(padded_sent[i - self.n:i])
+               context = tuple(padded_sent[i - self.n:i - 1])
+               self.vocab.add(padded_sent[i])
+               self.ngram_counts[ngram] = self.ngram_counts.get(ngram, 0) + 1
+               self.context_counts[context] = self.context_counts.get(context, 0) + 1
 
     def score(self, sentence):
         # tokenize and create N-grams
