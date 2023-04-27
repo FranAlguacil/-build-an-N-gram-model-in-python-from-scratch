@@ -18,13 +18,13 @@
     sentences = reuters.sents()
     tokenized_sentences = [[w.lower() for w in sent] for sent in sentences]
     
-    #CNN
+    #ABC
     import nltk
     import numpy as np
-    nltk.download('cnn')
-    from nltk.corpus import cnn
-    corpus = nltk.corpus.cnn
-    sentences = cnn.sents()
+    nltk.download('abc')
+    from nltk.corpus import abc
+    corpus = nltk.corpus.acbc
+    sentences = abc.sents()
     tokenized_sentences = [[w.lower() for w in sent] for sent in sentences]
     
 
