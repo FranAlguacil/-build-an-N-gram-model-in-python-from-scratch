@@ -16,21 +16,15 @@ class NgramModel:
                 ngram = tuple(padded_sent[i - self.n:i])
                 context = tuple(padded_sent[i - self.n:i - 1])
                 self.vocab.add(padded_sent[i])
-                if ngram in self.ngram_counts:
-                    self.ngram_counts[ngram] += 1
-                else:
-                    self.ngram_counts[ngram] = 1
-                if context in self.context_counts:
-                    self.context_counts[context] += 1
-                else:
-                    self.context_counts[context] = 1
+                self.ngram_counts[ngram] = self.ngram_counts.get(ngram, 0) + 1
+                self.context_counts[context] = self.context_counts.get(context, 0) + 1
 
-    def prob(self, word, context):
-        context_count = self.context_counts.get(context, 0)
-        ngram = context + (word,)
-        ngram_count = self.ngram_counts.get(ngram, 0)
-        prob = (ngram_count + self.smoothing) / (context_count + self.smoothing * len(self.vocab))
-        return prob
+   def prob(self, word, context):
+      context_count = self.context_counts.get(context, 0)
+      ngram = context + (word,)
+      ngram_count = self.ngram_counts.get(ngram, 0)
+      prob = (ngram_count + 1) / (context_count + len(self.vocab))  #Apply laplace adding +1
+      return prob
 
     def sentence_logP_score(self, sentence):
         padded_sent = ['<s>'] * self.n + sentence + ['</s>']
