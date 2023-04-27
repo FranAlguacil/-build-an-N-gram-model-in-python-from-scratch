@@ -15,7 +15,9 @@ STEPS:
 
 5. build test to check that it works: perplexity
 
-6. Try with different corpora: Reuters, Wordnet, Brown Corpus
+6. Interpolation and back-off strategies: Laplace and absolute discount
+
+6. Try with different corpora: Reuters, CNN, Brown Corpus
 
 7. Comparing the results using different corpora: Comparing section 'news' with each corpus and try with each n-gram architecture
 
