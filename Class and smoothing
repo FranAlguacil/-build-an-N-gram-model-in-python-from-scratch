@@ -1,25 +1,3 @@
-class Ngram_model:
-    def __init__(self, n):
-        self.n = n
-        self.ngrams = {}
-        self.total_count = 0
-
-     def train(self, sentences):
-       for sent in sentences:
-          padded_sent = ['<s>'] * self.n + sent + ['</s>']
-           for i in range(self.n, len(padded_sent)):
-               ngram = tuple(padded_sent[i - self.n:i])
-               context = tuple(padded_sent[i - self.n:i - 1])
-               self.vocab.add(padded_sent[i])
-               self.ngram_counts[ngram] = self.ngram_counts.get(ngram, 0) + 1
-               self.context_counts[context] = self.context_counts.get(context, 0) + 1
-
-    def score(self, sentence):
-        # tokenize and create N-grams
-        tokens = tokenize(sentence)
-        ngrams = create_ngrams(tokens, self.n)
-
-
 
 UPDATE!CLASS, SMOOTHING AND INTERPOLATION
 
