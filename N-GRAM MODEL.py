@@ -21,13 +21,13 @@ tokenized_sentences = [[w.lower() for w in sent] for sent in sentences]
 
 class NgramModel:
     def __init__(self, n, smoothing=0.01):      #Try to use MLE and Vocabulary from nltk.lm but didn't work 
-        self.n = n
+        self.n = n                              #objects
         self.vocab = set()
         self.ngram_counts = {}
         self.context_counts = {}
         self.smoothing = smoothing  
        
-    def train(self, sentences):
+    def train(self, sentences):                #train ngram model
         for sent in sentences:
             padded_sent = ['<s>'] * self.n + sent + ['</s>']
             for i in range(self.n, len(padded_sent)):
@@ -37,14 +37,14 @@ class NgramModel:
                 self.ngram_counts[ngram] = self.ngram_counts.get(ngram, 0) + 1
                 self.context_counts[context] = self.context_counts.get(context, 0) + 1
 
-    def prob(self, word, context):
+    def prob(self, word, context):             #probability + smoothing Laplace
         context_count = self.context_counts.get(context, 0)
         ngram = context + (word,)
         ngram_count = self.ngram_counts.get(ngram, 0)
         prob = (ngram_count + self.smoothing) / (context_count + self.smoothing * len(self.vocab))
         return prob
 
-    def sentence_logP_score(self, sentence):
+    def sentence_logP_score(self, sentence):   #score for the generate text
         padded_sent = ['<s>'] * self.n + sentence + ['</s>']
         logP = 0
         for i in range(self.n, len(padded_sent)):
@@ -53,7 +53,7 @@ class NgramModel:
             logP += np.log2(self.prob(padded_sent[i], context))
         return logP
 
-    def generate(self, n_words=10):
+    def generate(self, n_words=10):            #generation 
         sentence = ['<s>'] * self.n
         for i in range(n_words):
             context = tuple(sentence[-self.n + 1:])    #Fixed: generate() got an unexpected keyword argument 'context'
@@ -70,7 +70,7 @@ class NgramModel:
         perplexity = 2 ** (-prob_sentence / num_words)
         return perplexity
 
-    def sentence_interpolated_logP(S, vocab, uni_counts, bi_counts, tri_counts, lambdas=[0.5, 0.3, 0.2], alpha=1):
+    def sentence_interpolated_logP(S, vocab, uni_counts, bi_counts, tri_counts, lambdas=[0.5, 0.3, 0.2], alpha=1): #interpolation
       tokens = ['*', '*'] + S + ['STOP']
       prob = 0
       for u, v, w in nltk.ngrams(tokens, 3):
@@ -80,7 +80,7 @@ class NgramModel:
         prob += lambdas[0] * tri_prob + lambdas[1] * bi_prob + lambdas[2] * uni_prob
         return prob
 
-   
+#Analysis part: I tried to define everything before in order to when we arrive to the experiment part, we only have to manage these three values below.
 n = 5
 smoothing = 0.01
 discount = 0.05
