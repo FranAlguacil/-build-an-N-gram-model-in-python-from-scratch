@@ -27,20 +27,15 @@ class NgramModel:
         self.context_counts = {}
         self.smoothing = smoothing  
        
-    def train(self, sentences):  #Define and train an N-gram
+    def train(self, sentences):
         for sent in sentences:
             padded_sent = ['<s>'] * self.n + sent + ['</s>']
             for i in range(self.n, len(padded_sent)):
                 ngram = tuple(padded_sent[i - self.n:i])
-                context = tuple(padded_sent[i - self.n:i - 1])  #fixed the error: : 'list' object has no attribute 'lookup' 
-                if ngram in self.ngram_counts:
-                    self.ngram_counts[ngram] += 1
-                else:
-                    self.ngram_counts[ngram] = 1
-                if context in self.context_counts:
-                    self.context_counts[context] += 1
-                else:
-                    self.context_counts[context] = 1
+                context = tuple(padded_sent[i - self.n:i - 1])
+                self.vocab.add(padded_sent[i])
+                self.ngram_counts[ngram] = self.ngram_counts.get(ngram, 0) + 1
+                self.context_counts[context] = self.context_counts.get(context, 0) + 1
 
     def prob(self, word, context):
         context_count = self.context_counts.get(context, 0)
