@@ -85,3 +85,25 @@ class NgramModel:
         tri_prob = np.log(tri_counts[(u, v, w)] / bi_counts[(u, v)])
         prob += lambdas[0] * tri_prob + lambdas[1] * bi_prob + lambdas[2] * uni_prob
         return prob
+
+   
+n = 5
+smoothing = 0.01
+discount = 0.05
+
+model = NgramModel(n, smoothing)
+model.train(tokenized_sentences)
+
+generated_text = model.generate(20) #we can introduce the number of token we want
+generated_text_list = list(generated_text)
+print('Generated text:', ' '.join(generated_text_list))
+
+generated_text_score = model.sentence_logP_score(generated_text)
+print('Score of generated text:', generated_text_score)
+
+generated_text_perplexity = model.perplexity(generated_text)
+print('Perplexity of generated text:', generated_text_perplexity)
+
+test_sentence = ['the', 'news', 'article', 'reported', 'on', 'the', 'recent', 'economic', 'trends']
+test_sentence_score = model.sentence_logP_score(test_sentence)
+print('Score of test sentence "', ' '.join(test_sentence), '":', test_sentence_score)
