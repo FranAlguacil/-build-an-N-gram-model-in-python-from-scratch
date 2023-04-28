@@ -1,1 +1,9 @@
+USAGE
 
+
+The model is in the N-GRAM MODEL.py file, which is the executable. At the end of this are the numeric variables to be able to change the model as required.
+
+The different corpora are located in the Preprocess corpora file, where you can copy the corpus you want and paste it at the beginning of N-GRAM.py
+
+To choose the back-off strategies it is the same procedure, in the file back-off strategies.py there are two different techniques and depending on which one is required, 
+it is copied and pasted in N-GRAM MODEL.PY
