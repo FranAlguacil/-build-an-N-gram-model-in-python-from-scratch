@@ -7,3 +7,5 @@ The different corpora are located in the Preprocess corpora file, where you can 
 
 To choose the back-off strategies it is the same procedure, in the file back-off strategies.py there are two different techniques and depending on which one is required, 
 it is copied and pasted in N-GRAM MODEL.PY
+
+In docx file is my report and Experiments.xlsx the results with different techniques and models
