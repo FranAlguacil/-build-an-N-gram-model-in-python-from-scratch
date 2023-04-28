@@ -101,3 +101,16 @@ print('Perplexity of generated text:', generated_text_perplexity)
 test_sentence = ['the', 'news', 'article', 'reported', 'on', 'the', 'recent', 'economic', 'trends']
 test_sentence_score = model.sentence_logP_score(test_sentence)
 print('Score of test sentence "', ' '.join(test_sentence), '":', test_sentence_score)
+
+test_sentence_perplexity = model.perplexity(test_sentence)
+print('Perplexity of test sentence "', ' '.join(test_sentence), '":', test_sentence_perplexity)
+
+#Interpolation 
+vocab = model.vocab
+uni_counts = model.context_counts
+bi_counts = model.ngram_counts
+tri_counts = {}
+lambdas = [0.5, 0.3, 0.2]
+
+result = model.sentence_interpolated_logP(test_sentence, lambdas)
+print('Interpolated log probability of test sentence "', ' '.join(test_sentence), '":', result)
