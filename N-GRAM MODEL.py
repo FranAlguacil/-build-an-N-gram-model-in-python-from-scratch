@@ -32,8 +32,7 @@ class NgramModel:
             padded_sent = ['<s>'] * self.n + sent + ['</s>']
             for i in range(self.n, len(padded_sent)):
                 ngram = tuple(padded_sent[i - self.n:i])
-                context = tuple(padded_sent[i - self.n:i - 1])  #fixed the error: : 'list' object has no attribute 'lookup' solucionalo
-                self.vocab.add(padded_sent[i])
+                context = tuple(padded_sent[i - self.n:i - 1])  #fixed the error: : 'list' object has no attribute 'lookup' 
                 if ngram in self.ngram_counts:
                     self.ngram_counts[ngram] += 1
                 else:
