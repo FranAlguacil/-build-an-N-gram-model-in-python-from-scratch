@@ -8,7 +8,7 @@ Original file is located at
 
 # BUILD A N-GRAM MODEL
 
-This code defines a function called preprocess_corpus that takes a path to a text corpus file as input. The function reads in the corpus file, converts all the text to lowercase, removes punctuations from the text, splits the text into sentences, removes any empty sentences, and tokenizes each sentence into a list of words. Finally, the function returns a list of lists, where each inner list represents a tokenized sentence from the original text corpus.
+
 """    
 import nltk       #useful to treat with language model
 import numpy as np   #operations with logs
