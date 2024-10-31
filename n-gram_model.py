@@ -1,46 +1,78 @@
+from collections import defaultdict
+import numpy as np
+
 class Ngrams:
     def __init__(self, text, n):
         """
-        :param text: Texto a partir del cual se generarán los n-gramas.
-        :param n: Número de palabras por n-grama (1 para unigramas, 2 para bigramas, etc.).
+        Init the class with the text and number of ngram that we want
+        :param text: Text to generate the n-grams
+        :param n: unigram, bigram, trigram
         """
-        self.text = text.split()  # text for split
-        self.n = n  # N count 
+        self.text = text.split()  # Divide el texto en una lista de palabras
+        self.n = n  # Number of words
+        self.ngrams_counts = defaultdict(int)
+        self.total_ngrams = 0
 
     def generate_ngrams(self):
         """
-        Genera y retorna una lista de n-gramas.
+        Generate and count text ngrams
         """
-        ngrams_list = []
         for i in range(len(self.text) - self.n + 1):
-            ngram = tuple(self.text[i:i + self.n])  
-            ngrams_list.append(ngram)
-        return ngrams_list
+            ngram = tuple(self.text[i:i + self.n])
+            self.ngrams_counts[ngram] += 1
+            self.total_ngrams += 1
+        return list(self.ngrams_counts.items())
 
-    def get_frequent_ngrams(self, top=10):
+    def get_ngram_probability(self, ngram, smoothing='laplace', discount=0.75):
         """
-        Calcula y retorna los n-gramas más frecuentes en el texto.
-
-        :param top: Número de n-gramas más frecuentes a devolver.
+        
+        :param ngram: ngram probability 
+        :param smoothing: smoothing laplace
+        :param discount: value for absolute smoothing
         """
-        ngrams_list = self.generate_ngrams()
-        frequency = {}
+        if smoothing == 'laplace':
+            # Laplace smoothing: P(ngram) = (count(ngram) + 1) / (total_ngrams + V)
+            vocab_size = len(set(self.text))  # vocab size
+            return (self.ngrams_counts[ngram] + 1) / (self.total_ngrams + vocab_size)
+        
+        elif smoothing == 'absolute_discount':
+            # Absolute discounting: P(ngram) = max(count(ngram) - discount, 0) / total_ngrams
+            count_ngram = max(self.ngrams_counts[ngram] - discount, 0)
+            return count_ngram / self.total_ngrams
+        else:
+            raise ValueError("Smoothing type not recognized. Use 'laplace' or 'absolute_discount'.")
 
-        # count frequence
-        for ngram in ngrams_list:
-            if ngram in frequency:
-                frequency[ngram] += 1
-            else:
-                frequency[ngram] = 1
+    def calculate_perplexity(self, test_text):
+        """
+        Calculate perplexity
+        
+        :param test_text: test text
+        :return: perplexity
+        """
+        test_words = test_text.split()
+        test_ngrams = [tuple(test_words[i:i + self.n]) for i in range(len(test_words) - self.n + 1)]
+        log_prob_sum = 0
 
-        # Sorted n-grams by frequence 
-        sorted_ngrams = sorted(frequency.items(), key=lambda x: x[1], reverse=True)
-        return sorted_ngrams[:top]
+        for ngram in test_ngrams:
+            prob = self.get_ngram_probability(ngram, smoothing='laplace')
+            log_prob_sum += -np.log2(prob)
 
-# Ejemplo de uso
-texto = "Este es un ejemplo de texto para generar n-gramas y contar su frecuencia"
+        return 2 ** (log_prob_sum / len(test_ngrams))
+
+# usage
+texto = "This is just an example."
 ngrams_instance = Ngrams(texto, 2)  # Cambia el número para obtener unigramas, bigramas, trigramas, etc.
 
-# Generar y mostrar los n-gramas y los más frecuentes
-print("N-gramas generados:", ngrams_instance.generate_ngrams()[:5])  # Muestra los primeros 5 n-gramas como ejemplo
-print("N-gramas más frecuentes:", ngrams_instance.get_frequent_ngrams(top=5))
+# Genereate and count n-grams
+ngrams_instance.generate_ngrams()
+print("N-grams frequences", ngrams_instance.ngrams_counts)
+
+# Example with Laplace smoothing 
+ngram = ("Ejemplo", "de", "texto")
+print("Laplace smoothing de n-gram concreto:", ngrams_instance.get_ngram_probability(ngram, smoothing='laplace'))
+
+# Perplexity calculation 
+texto_prueba = "Este texto es un ejemplo"
+print("Perplexity:", ngrams_instance.calculate_perplexity(texto_prueba))
+
+#if perplexity is slow, better. 
